@@ -1,131 +1,175 @@
 import React from 'react';
-import { 
-  Grid, 
-  Paper, 
-  Typography, 
-  Box, 
-  Card, 
+import { useNavigate } from 'react-router-dom';
+import {
+  Box,
+  Grid,
+  Card,
   CardContent,
-  LinearProgress 
+  Typography,
+  Button,
+  IconButton,
+  LinearProgress,
+  Avatar,
+  Stack
 } from '@mui/material';
 import {
   People as PeopleIcon,
   PersonAdd as PersonAddIcon,
   Search as SearchIcon,
-  TrendingUp as TrendingUpIcon
+  TrendingUp as TrendingUpIcon,
+  Notifications as NotificationsIcon,
+  ArrowForward as ArrowForwardIcon,
+  CheckCircle as CheckCircleIcon,
+  Schedule as ScheduleIcon
 } from '@mui/icons-material';
-import { motion } from 'framer-motion';
-
-const statCards = [
-  { 
-    title: 'Total Citizens', 
-    value: '2,847', 
-    icon: <PeopleIcon />, 
-    color: '#2196f3',
-    progress: 75
-  },
-  { 
-    title: 'New Registrations', 
-    value: '143', 
-    icon: <PersonAddIcon />, 
-    color: '#4caf50',
-    progress: 45
-  },
-  { 
-    title: 'Lookups Today', 
-    value: '89', 
-    icon: <SearchIcon />, 
-    color: '#ff9800',
-    progress: 60
-  },
-  { 
-    title: 'Growth Rate', 
-    value: '+12.5%', 
-    icon: <TrendingUpIcon />, 
-    color: '#9c27b0',
-    progress: 82
-  },
-];
 
 const Dashboard: React.FC = () => {
+  const navigate = useNavigate();
+
+  const stats = [
+    { title: 'Total Citizens', value: '2,847', icon: <PeopleIcon />, color: '#2196f3', progress: 75, change: '+12%' },
+    { title: 'New Registrations', value: '143', icon: <PersonAddIcon />, color: '#4caf50', progress: 45, change: '+8%' },
+    { title: 'Lookups Today', value: '89', icon: <SearchIcon />, color: '#ff9800', progress: 60, change: '+23%' },
+    { title: 'Growth Rate', value: '+12.5%', icon: <TrendingUpIcon />, color: '#9c27b0', progress: 82, change: '+5%' },
+  ];
+
+  const recentActivities = [
+    { id: 1, name: 'John Doe', action: 'Registered', time: '10 min ago', status: 'success' },
+    { id: 2, name: 'Jane Smith', action: 'Profile Updated', time: '25 min ago', status: 'success' },
+    { id: 3, name: 'Robert Johnson', action: 'Document Upload', time: '1 hour ago', status: 'pending' },
+  ];
+
+  const quickActions = [
+    { label: 'Register Citizen', icon: <PersonAddIcon />, color: '#4caf50', path: '/register' },
+    { label: 'Search Citizen', icon: <SearchIcon />, color: '#2196f3', path: '/search' },
+    { label: 'View Reports', icon: <TrendingUpIcon />, color: '#9c27b0', path: '/reports' },
+  ];
+
   return (
-    <Box>
-      <Typography variant="h4" sx={{ mb: 4, fontWeight: 'bold', color: '#1a237e' }}>
-        Dashboard Overview
-      </Typography>
-      
-      <Grid container spacing={3}>
-        {statCards.map((card, index) => (
+    <Box sx={{ p: 3 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
+        <Box>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#1a237e' }}>
+            MCC Dashboard
+          </Typography>
+          <Typography variant="body1" color="text.secondary">
+            Citizen Management System
+          </Typography>
+        </Box>
+        <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+          <IconButton>
+            <NotificationsIcon />
+          </IconButton>
+          <Avatar sx={{ bgcolor: 'primary.main' }}>A</Avatar>
+        </Box>
+      </Box>
+
+      <Grid container spacing={3} sx={{ mb: 4 }}>
+        {stats.map((stat, index) => (
           <Grid item xs={12} sm={6} md={3} key={index}>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-            >
-              <Card 
-                sx={{ 
-                  borderRadius: 3,
-                  background: `linear-gradient(135deg, ${card.color}20 0%, ${card.color}10 100%)`,
-                  border: `1px solid ${card.color}30`,
-                  overflow: 'hidden'
-                }}
-              >
-                <CardContent>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                    <Box sx={{ 
-                      p: 1.5, 
-                      borderRadius: 2,
-                      background: `${card.color}20`,
-                      color: card.color
-                    }}>
-                      {card.icon}
-                    </Box>
-                    <Typography variant="h3" sx={{ fontWeight: 'bold' }}>
-                      {card.value}
-                    </Typography>
+            <Card sx={{ borderRadius: 3 }}>
+              <CardContent>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                  <Box sx={{ p: 1.5, borderRadius: 2, bgcolor: `${stat.color}20`, color: stat.color }}>
+                    {stat.icon}
                   </Box>
-                  <Typography variant="h6" sx={{ fontWeight: 'medium', mb: 1 }}>
-                    {card.title}
+                  <Typography variant="body2" sx={{ color: stat.color, fontWeight: 'bold' }}>
+                    {stat.change}
                   </Typography>
-                  <LinearProgress 
-                    variant="determinate" 
-                    value={card.progress} 
-                    sx={{ 
-                      height: 8, 
-                      borderRadius: 4,
-                      backgroundColor: `${card.color}20`,
-                      '& .MuiLinearProgress-bar': {
-                        backgroundColor: card.color
-                      }
-                    }}
-                  />
-                </CardContent>
-              </Card>
-            </motion.div>
+                </Box>
+                <Typography variant="h3" sx={{ fontWeight: 'bold' }}>{stat.value}</Typography>
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>{stat.title}</Typography>
+                <LinearProgress 
+                  variant="determinate" 
+                  value={stat.progress} 
+                  sx={{ 
+                    height: 8, 
+                    borderRadius: 4,
+                    bgcolor: `${stat.color}20`,
+                    '& .MuiLinearProgress-bar': { bgcolor: stat.color }
+                  }}
+                />
+              </CardContent>
+            </Card>
           </Grid>
         ))}
       </Grid>
-      
-      {/* Recent Activity Section */}
-      <Grid container spacing={3} sx={{ mt: 2 }}>
-        <Grid item xs={12} md={8}>
-          <Paper sx={{ p: 3, borderRadius: 3 }}>
-            <Typography variant="h6" sx={{ mb: 3, fontWeight: 'bold' }}>
-              Recent Citizen Registrations
-            </Typography>
-            {/* Add DataGrid or table here */}
-          </Paper>
-        </Grid>
-        
+
+      <Grid container spacing={3}>
         <Grid item xs={12} md={4}>
-          <Paper sx={{ p: 3, borderRadius: 3 }}>
-            <Typography variant="h6" sx={{ mb: 3, fontWeight: 'bold' }}>
-              Quick Actions
-            </Typography>
-            {/* Add quick action buttons here */}
-          </Paper>
+          <Card sx={{ borderRadius: 3, height: '100%' }}>
+            <CardContent>
+              <Typography variant="h6" sx={{ mb: 3, fontWeight: 'bold' }}>Quick Actions</Typography>
+              <Stack spacing={2}>
+                {quickActions.map((action, index) => (
+                  <Button
+                    key={index}
+                    fullWidth
+                    startIcon={action.icon}
+                    onClick={() => navigate(action.path)}
+                    sx={{
+                      justifyContent: 'flex-start',
+                      p: 2,
+                      borderRadius: 2,
+                      bgcolor: `${action.color}15`,
+                      color: action.color,
+                      border: `1px solid ${action.color}30`,
+                      '&:hover': { bgcolor: `${action.color}25` }
+                    }}
+                  >
+                    {action.label}
+                  </Button>
+                ))}
+              </Stack>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        <Grid item xs={12} md={8}>
+          <Card sx={{ borderRadius: 3 }}>
+            <CardContent>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+                <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Recent Activity</Typography>
+                <Button endIcon={<ArrowForwardIcon />}>
+                  View All
+                </Button>
+              </Box>
+              <Stack spacing={2}>
+                {recentActivities.map((activity) => (
+                  <Box key={activity.id} sx={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    p: 2, 
+                    borderRadius: 2,
+                    bgcolor: 'grey.50'
+                  }}>
+                    {activity.status === 'success' ? 
+                      <CheckCircleIcon color="success" /> : 
+                      <ScheduleIcon color="warning" />
+                    }
+                    <Box sx={{ ml: 2, flex: 1 }}>
+                      <Typography fontWeight="medium">{activity.name}</Typography>
+                      <Typography variant="body2" color="text.secondary">{activity.action}</Typography>
+                    </Box>
+                    <Typography variant="caption" color="text.secondary">{activity.time}</Typography>
+                  </Box>
+                ))}
+              </Stack>
+            </CardContent>
+          </Card>
         </Grid>
       </Grid>
+
+      <Card sx={{ mt: 3, borderRadius: 3, bgcolor: 'primary.main', color: 'white' }}>
+        <CardContent>
+          <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 1 }}>
+            Welcome to MCC Portal
+          </Typography>
+          <Typography variant="body1" sx={{ opacity: 0.9 }}>
+            Manage citizen registrations, lookups, and analytics efficiently.
+          </Typography>
+        </CardContent>
+      </Card>
     </Box>
   );
 };
