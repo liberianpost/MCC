@@ -6,6 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 // Import pages
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import RegisterCitizen from './pages/RegisterCitizen';
 
 const theme = createTheme({
   palette: {
@@ -41,6 +42,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/register" element={<RegisterCitizen />} />
         </Routes>
       </Router>
     </ThemeProvider>

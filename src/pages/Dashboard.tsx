@@ -70,7 +70,12 @@ const Dashboard: React.FC = () => {
             <Card sx={{ borderRadius: 3 }}>
               <CardContent>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                  <Box sx={{ p: 1.5, borderRadius: 2, bgcolor: `${stat.color}20`, color: stat.color }}>
+                  <Box sx={{ 
+                    p: 1.5, 
+                    borderRadius: 2, 
+                    bgcolor: `${stat.color}20`, 
+                    color: stat.color 
+                  }}>
                     {stat.icon}
                   </Box>
                   <Typography variant="body2" sx={{ color: stat.color, fontWeight: 'bold' }}>
